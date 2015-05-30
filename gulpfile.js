@@ -6,6 +6,8 @@
     watch = require('gulp-watch'),
     jshint = require('gulp-jshint'),
     livereload = require('gulp-livereload'),
+    less = require('gulp-less'),
+    path = require('path'),
     _paths = ['server/**/*.js', 'client/js/*.js'];
 
 
@@ -41,8 +43,16 @@
       .pipe(jshint.reporter('default'));
   });
 
+  gulp.task('less', function () {
+    return gulp.src('./client/less/**/*.less')
+      .pipe(less({
+        paths: [ path.join(__dirname, 'less', 'includes') ]
+      }))
+      .pipe(gulp.dest('./client/css'));
+  });
+
 
   // The default task (called when you run `gulp` from cli)
-  gulp.task('default', ['lint', 'nodemon', 'watch']);
+  gulp.task('default', ['lint', 'nodemon', 'watch', 'less']);
 
 }());
